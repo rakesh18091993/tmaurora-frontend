@@ -9,7 +9,7 @@ export default ({ router, store, app }) => {
     try {
       const response = await uiStore.fetchWidgetData({ url: "rolesandsites/" });
 
-      const plantDetails = response.data.sites;
+      const plantDetails = response.sites;
       dataStore.plantDetails = plantDetails;
 
       // Save sitemodel to local storage

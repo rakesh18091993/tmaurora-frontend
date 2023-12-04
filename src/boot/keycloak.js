@@ -1,8 +1,11 @@
+import { createApp } from "vue";
 import VueKeyCloakJs from "@dsb-norge/vue-keycloak-js";
 import axios from "axios";
 import { keycloakConfig } from "boot/globalVars.js";
 
-export default async ({ Vue, store }) => {
+export default async ({ app, store }) => {
+  const appInstance = createApp();
+  let keycloak;
   function registerTokenInterceptor(keycloak) {
     axios.interceptors.request.use(
       (config) => {
@@ -17,7 +20,7 @@ export default async ({ Vue, store }) => {
   }
 
   return new Promise((resolve, reject) => {
-    Vue.use(VueKeyCloakJs, {
+    appInstance.use(VueKeyCloakJs, {
       config: {
         url: keycloakConfig.url,
         realm: keycloakConfig.realm,
@@ -32,15 +35,16 @@ export default async ({ Vue, store }) => {
         flow: "standard",
       },
       onReady: (keycloak) => {
-        Vue.prototype.$kc = keycloak;
+        app.config.globalProperties.$kc = keycloak;
         // console.log(keycloak.tokenParsed);
         localStorage.setItem("vue-token", keycloak.token);
-        Vue.prototype.$user = keycloak.tokenParsed;
+        app.config.globalProperties.$user = keycloak.tokenParsed;
         // store.commit("uistore/setUserObject", { ...keycloak.tokenParsed });
         // store.commit("uistore/setKeycloakObject", { ...keycloak });
         registerTokenInterceptor(keycloak);
         resolve();
       },
     });
+    appInstance.mount();
   });
 };
