@@ -29,6 +29,7 @@ export const useDataStore = defineStore("dataStore", {
         return response.data;
       } catch (err) {
         console.log(error);
+        throw err;
       }
     },
   },

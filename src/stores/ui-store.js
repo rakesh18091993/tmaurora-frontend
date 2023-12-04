@@ -21,7 +21,6 @@ export const useUiStore = defineStore("uiStore", {
   getters: {},
   actions: {
     async fetchWidgetData(payload) {
-      console.log(payload);
       try {
         const response = await axios.get(payload.url, {
           params: payload.params,
@@ -44,6 +43,7 @@ export const useUiStore = defineStore("uiStore", {
         return response.data;
       } catch (err) {
         console.log(err);
+        throw err;
       }
     },
     async fetchUserSessions() {
