@@ -20,7 +20,7 @@ export const useDataStore = defineStore("dataStore", {
   }),
   getters: {},
   actions: {
-    async fetchWidgetData({ commit }, payload) {
+    async fetchWidgetData(payload) {
       try {
         const response = await axios.get(payload.url, {
           params: payload.params,

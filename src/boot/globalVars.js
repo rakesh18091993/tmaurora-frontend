@@ -1,4 +1,4 @@
-import Vue from "vue";
+import { createApp } from "vue";
 
 // Global Variables
 var backendURL = `http://127.0.0.1:8000`;
@@ -18,7 +18,8 @@ var keycloakClientId = "ers-frontend";
 //   keycloakClientId = "ers";
 // }
 
-Vue.prototype.$serverIP = backendURL;
+const app = createApp({});
+app.config.globalProperties.$serverIP = backendURL;
 
 export const serverIP = backendURL;
 export const timeout = apiTimeout;

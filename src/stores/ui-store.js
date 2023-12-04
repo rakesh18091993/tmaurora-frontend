@@ -20,7 +20,8 @@ export const useUiStore = defineStore("uiStore", {
   }),
   getters: {},
   actions: {
-    async fetchWidgetData({ commit }, payload) {
+    async fetchWidgetData(payload) {
+      console.log(payload);
       try {
         const response = await axios.get(payload.url, {
           params: payload.params,
@@ -28,10 +29,11 @@ export const useUiStore = defineStore("uiStore", {
         });
         return response.data;
       } catch (err) {
-        console.log(error);
+        console.log(err);
+        throw err;
       }
     },
-    async fetchUserSettings({ commit }, payload) {
+    async fetchUserSettings(payload) {
       try {
         const response = await axios.patch(
           `/usersettings/${payload.id}/`,
@@ -41,14 +43,14 @@ export const useUiStore = defineStore("uiStore", {
         // commit("setUserSettings", response.data)
         return response.data;
       } catch (err) {
-        console.log(error);
+        console.log(err);
       }
     },
-    async fetchUserSessions({ commit }) {
+    async fetchUserSessions() {
       const response = await axios.get("/user-sessions/", getAxiosConfig());
       return response.data;
     },
-    async updateUserPassword({ commit }, payload) {
+    async updateUserPassword(payload) {
       const response = await axios.post(
         "/password-reset/",
         payload,
