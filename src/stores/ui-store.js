@@ -12,7 +12,7 @@ function getAxiosConfig(headers = {}) {
     },
   };
 }
-export const useDataStore = defineStore("dataStore", {
+export const useUiStore = defineStore("uiStore", {
   state: () => ({
     user: {},
     keycloak: {},
